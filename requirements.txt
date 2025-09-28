@@ -1,0 +1,41 @@
+# Core dependencies
+pyrogram==2.0.106
+pymongo==4.6.1
+python-dotenv==1.0.0
+aiohttp==3.9.3
+asyncio==3.4.3
+
+# Web framework for health checks
+flask==3.0.0
+gunicorn==21.2.0
+
+# Data processing
+python-dateutil==2.8.2
+pytz==2023.4
+
+# Logging
+structlog==23.2.0
+
+# HTTP requests
+requests==2.31.0
+
+# File handling
+python-magic==0.4.27
+
+# JSON handling
+ujson==5.9.0
+
+# Environment and configuration
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Async support
+asyncpg==0.29.0
+
+# Additional utilities
+humanize==4.9.0
+regex==2023.12.25
+
+# Optional: For advanced features
+Pillow==10.2.0
+moviepy==1.0.3
