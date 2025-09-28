@@ -9,9 +9,9 @@ class Config:
     """Configuration class for the Kannada Entertainment Bot"""
     
     # Telegram Bot Configuration
-    API_ID = os.getenv("API_ID")
-    API_HASH = os.getenv("API_HASH")
-    BOT_TOKEN = os.getenv("BOT_TOKEN")
+    API_ID = os.getenv("API_ID", "")
+    API_HASH = os.getenv("API_HASH, """)
+    BOT_TOKEN = os.getenv("BOT_TOKEN, """)
     
     # Admin and Channel Configuration
     ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
