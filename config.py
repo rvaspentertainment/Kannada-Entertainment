@@ -9,16 +9,16 @@ class Config:
     """Configuration class for the Kannada Entertainment Bot"""
     
     # Telegram Bot Configuration
-    API_ID = os.getenv("API_ID", "")
-    API_HASH = os.getenv("API_HASH, """)
-    BOT_TOKEN = os.getenv("BOT_TOKEN, """)
+    API_ID = os.getenv("API_ID", "13828860")
+    API_HASH = os.getenv("API_HASH", "bbcd5f94dcd9f8a5eedc5de7397b4127'")
+    BOT_TOKEN = os.getenv("BOT_TOKEN", "8293435784:AAE4FhGmDeonCTe_ejfTAL83AGodtcoq7Cs")
     
     # Admin and Channel Configuration
     ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
-    CHANNEL_IDS = [int(x) for x in os.getenv("CHANNEL_IDS", "").split(",") if x.strip()]
+    CHANNEL_IDS = [int(x) for x in os.getenv("CHANNEL_IDS", "-1001485542941").split(",") if x.strip()]
     
     # Database Configuration
-    MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/")
+    MONGO_URL = os.getenv("MONGO_URL", "mongodb+srv://rebelstarcreations123:Z5aWnjBR96lmn4FW@cluster0.gg7js7w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     DATABASE_NAME = os.getenv("DATABASE_NAME", "kannada_entertainment")
     
     # Blogger Configuration
