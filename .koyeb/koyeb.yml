@@ -1,0 +1,62 @@
+app:
+  name: kannada-entertainment-bot
+  
+services:
+  - name: bot
+    type: web
+    build:
+      type: docker
+      dockerfile: Dockerfile
+    regions:
+      - fra
+    instance_type: nano
+    env:
+      - key: API_ID
+        scope: RUN
+        value: ""
+      - key: API_HASH
+        scope: RUN
+        value: ""
+      - key: BOT_TOKEN
+        scope: RUN
+        value: ""
+      - key: ADMIN_IDS
+        scope: RUN
+        value: ""
+      - key: CHANNEL_IDS
+        scope: RUN
+        value: ""
+      - key: MONGO_URL
+        scope: RUN
+        value: ""
+      - key: DATABASE_NAME
+        scope: RUN
+        value: "kannada_entertainment"
+      - key: BLOGGER_API_KEY
+        scope: RUN
+        value: ""
+      - key: BLOGGER_BLOG_ID
+        scope: RUN
+        value: ""
+      - key: BLOG_URL
+        scope: RUN
+        value: ""
+      - key: BOT_USERNAME
+        scope: RUN
+        value: ""
+      - key: PORT
+        scope: RUN
+        value: "8080"
+    ports:
+      - port: 8080
+        protocol: http
+    health_checks:
+      http:
+        path: /health
+        port: 8080
+    scaling:
+      min: 1
+      max: 1
+    resources:
+      memory: 512Mi
+      cpu: 0.1
