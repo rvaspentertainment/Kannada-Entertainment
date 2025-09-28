@@ -29,13 +29,18 @@ ujson==5.9.0
 pydantic==2.5.3
 pydantic-settings==2.1.0
 
-# Database (only if you need PostgreSQL - comment out if using only MongoDB)
-# asyncpg==0.29.0
-
 # Additional utilities
 humanize==4.9.0
 regex==2023.12.25
 
-# Media processing (updated versions for Python 3.13 compatibility)
+# Media processing
 Pillow>=10.3.0
-moviepy>=1.0.3
+
+# Absolute essentials only
+pyrogram>=2.0.100
+TgCrypto>=1.2.0
+pymongo>=4.6.0
+python-dotenv>=1.0.0
+flask>=3.0.0
+gunicorn>=21.0.0
+requests>=2.31.0
