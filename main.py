@@ -9,21 +9,29 @@ from pyrogram import Client
 from dotenv import load_dotenv
 
 # Load environment variables
-import os
-import logging
+load_dotenv()
 
-# Create logs directory if it doesn't exist
-os.makedirs('logs', exist_ok=True)
+# Configure logging with fallback
+def setup_logging():
+    handlers = [logging.StreamHandler(sys.stdout)]
+    
+    # Try to create file handler, but don't fail if we can't
+    try:
+        logs_dir = 'logs'
+        if not os.path.exists(logs_dir):
+            os.makedirs(logs_dir)
+        handlers.append(logging.FileHandler('logs/bot.log'))
+    except (OSError, PermissionError) as e:
+        print(f"Warning: Could not create log file: {e}")
+        print("Continuing with console logging only...")
+    
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.INFO,
+        handlers=handlers
+    )
 
-# Then your existing logging configuration
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/bot.log'),
-        logging.StreamHandler()
-    ]
-)
+setup_logging()
 logger = logging.getLogger(__name__)
 
 # Configuration from environment variables
@@ -71,10 +79,15 @@ flask_app = Flask(__name__)
 @flask_app.route('/health')
 def health_check():
     """Health check endpoint for Koyeb"""
+    try:
+        current_time = asyncio.get_event_loop().time()
+    except RuntimeError:
+        current_time = "no_event_loop"
+    
     return jsonify({
         "status": "healthy",
         "bot": "running",
-        "timestamp": str(asyncio.get_event_loop().time())
+        "timestamp": str(current_time)
     }), 200
 
 @flask_app.route('/status')
