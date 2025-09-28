@@ -9,15 +9,19 @@ from pyrogram import Client
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+import os
+import logging
 
-# Configure logging
+# Create logs directory if it doesn't exist
+os.makedirs('logs', exist_ok=True)
+
+# Then your existing logging configuration
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('logs/bot.log')
+        logging.FileHandler('logs/bot.log'),
+        logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
