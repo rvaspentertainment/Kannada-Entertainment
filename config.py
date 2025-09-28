@@ -24,7 +24,7 @@ class Config:
     # Blogger Configuration
     BLOGGER_API_KEY = os.getenv("BLOGGER_API_KEY", "")
     BLOGGER_BLOG_ID = os.getenv("BLOGGER_BLOG_ID", "")
-    BLOG_URL = os.getenv("BLOG_URL", "")
+    BLOG_URL = os.getenv("BLOG_URL", "https://kannada-entertainment.blogspot.com")
     
     # Bot Configuration
     BOT_USERNAME = os.getenv("BOT_USERNAME", "").replace("@", "")
