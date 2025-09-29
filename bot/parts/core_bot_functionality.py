@@ -2625,6 +2625,3 @@ Contact admin or use the search features to find content!
     except Exception as e:
         logger.error(f"Error in help command: {e}")
 
-print("🚀 Part 3: User Search System and File Serving completed!")
-print("✅ Bot is now fully functional with all features!")
-
