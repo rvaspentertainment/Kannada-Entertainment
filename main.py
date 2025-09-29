@@ -36,18 +36,19 @@ logger = logging.getLogger(__name__)
 
 # Configuration from environment variables
 class Config:
-    API_ID=API_ID
-    API_HASH=API_HASH
-    BOT_TOKEN=BOT_TOKEN
-    ADMIN_IDS=ADMIN_IDS
-    CHANNEL_IDS=CHANNEL_IDS
-    MONGO_URL=MONGO_URL
-    DATABASE_NAME=DATABASE_NAME
-    BLOGGER_API_KEY=BLOGGER_API_KEY
-    BLOGGER_BLOG_ID=BLOGGER_BLOG_ID
-    BLOG_URL=BLOG_URL
-    BOT_USERNAME=BOT_USERNAME
-    PORT=PORT 
+    API_ID = os.getenv("API_ID")
+    API_HASH = os.getenv("API_HASH")
+    BOT_TOKEN = os.getenv("BOT_TOKEN")
+    ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
+    CHANNEL_IDS = [int(x) for x in os.getenv("CHANNEL_IDS", "").split(",") if x.strip()]
+    MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/")
+    DATABASE_NAME = os.getenv("DATABASE_NAME", "kannada_entertainment")
+    BLOGGER_API_KEY = os.getenv("BLOGGER_API_KEY", "")
+    BLOGGER_BLOG_ID = os.getenv("BLOGGER_BLOG_ID", "")
+    BLOG_URL = os.getenv("BLOG_URL", "")
+    BOT_USERNAME = os.getenv("BOT_USERNAME", "")
+    PORT = int(os.getenv("PORT", 8080))
+
 
 # Validate required configuration
 required_config = ["API_ID", "API_HASH", "BOT_TOKEN"]
