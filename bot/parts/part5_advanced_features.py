@@ -24,18 +24,37 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Environment variables
-API_ID = os.environ.get("API_ID")
-API_HASH = os.environ.get("API_HASH")
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
-ADMIN_IDS = [int(x) for x in os.environ.get("ADMIN_IDS", "").split(",") if x.strip()]
-CHANNEL_IDS = [int(x) for x in os.environ.get("CHANNEL_IDS", "").split(",") if x.strip()]
-MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017/")
-DATABASE_NAME = os.environ.get("DATABASE_NAME", "kannada_entertainment")
-BLOGGER_API_KEY = os.environ.get("BLOGGER_API_KEY", "")
-BLOGGER_BLOG_ID = os.environ.get("BLOGGER_BLOG_ID", "")
-BLOG_URL = os.environ.get("BLOG_URL", "")
-BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
-
+class Config:
+    # Environment variables
+    API_ID = os.environ.get("API_ID")
+    API_HASH = os.environ.get("API_HASH")
+    BOT_TOKEN = os.environ.get("BOT_TOKEN")
+    
+    # Admin Configuration
+    ADMIN_IDS = [int(x) for x in os.environ.get("ADMIN_IDS", "").split(",") if x.strip()]
+    CHANNEL_IDS = [int(x) for x in os.environ.get("CHANNEL_IDS", "").split(",") if x.strip()]
+    
+    # Database Configuration
+    MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017/")
+    DATABASE_NAME = os.environ.get("DATABASE_NAME", "kannada_entertainment")
+    
+    # Blogger Configuration
+    BLOGGER_API_KEY = os.environ.get("BLOGGER_API_KEY", "")
+    BLOGGER_BLOG_ID = os.environ.get("BLOGGER_BLOG_ID", "")
+    BLOG_URL = os.environ.get("BLOG_URL", "")
+    
+    # Bot Configuration
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
+    
+    # Advanced Settings
+    MAX_SEARCH_RESULTS = 50
+    ITEMS_PER_PAGE = 10
+    MAX_FILE_SIZE_GB = 4.0
+    SUPPORTED_FORMATS = ['.mp4', '.mkv', '.avi', '.mov', '.m4v']
+    
+    # Cache Settings
+    CACHE_DURATION_HOURS = 24
+    MAX_CACHE_SIZE_MB = 100
 # Initialize MongoDB connection
 mongo_client = MongoClient(MONGO_URL)
 db = mongo_client[DATABASE_NAME]
