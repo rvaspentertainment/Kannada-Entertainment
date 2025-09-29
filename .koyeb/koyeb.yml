@@ -1,16 +1,15 @@
-app:
-  name: kannada-entertainment-bot
-  
+# .koyeb/koyeb.yml
+app: kannada-entertainment-bot
 services:
   - name: bot
-    type: web
+    instance_type: free
     build:
       type: docker
       dockerfile: Dockerfile
     regions:
       - fra
-    instance_type: nano
     env:
+      # IMPORTANT: Set the real values in the Koyeb control panel, not here.
       - key: API_ID
         scope: RUN
         value: ""
@@ -32,6 +31,9 @@ services:
       - key: DATABASE_NAME
         scope: RUN
         value: "kannada_entertainment"
+      - key: BOT_USERNAME
+        scope: RUN
+        value: ""
       - key: BLOGGER_API_KEY
         scope: RUN
         value: ""
@@ -39,9 +41,6 @@ services:
         scope: RUN
         value: ""
       - key: BLOG_URL
-        scope: RUN
-        value: ""
-      - key: BOT_USERNAME
         scope: RUN
         value: ""
       - key: PORT
@@ -52,11 +51,6 @@ services:
         protocol: http
     health_checks:
       http:
+        # This path must match the one in your kannada_bot.py Flask app
         path: /health
         port: 8080
-    scaling:
-      min: 1
-      max: 1
-    resources:
-      memory: 512Mi
-      cpu: 0.1
