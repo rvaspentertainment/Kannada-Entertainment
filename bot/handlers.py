@@ -1,7 +1,7 @@
 # bot/handlers.py
 """
 Main handlers file that imports all bot functionality from different parts.
-[cite_start]This file serves as the entry point for all bot handlers. [cite: 522]
+This file serves as the entry point for all bot handlers.
 """
 
 import logging
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 try:
     # Part 1 & 3: Core functions, User Search System & File Serving
-    [cite_start]from .parts.core_bot_functionality import * [cite: 523]
+    from .parts.core_bot_functionality import *
     from .parts.user_features import *
 
     # Part 2: Admin Upload System & Details Collection
@@ -21,7 +21,7 @@ try:
     from .parts.details_collection import *
 
     # Part 4: Blog Integration
-    [cite_start]from .parts.blogger_integration import * [cite: 523]
+    from .parts.blogger_integration import *
 
     logger.info("Successfully imported all feature modules from bot/parts/.")
 
@@ -32,18 +32,18 @@ except ImportError as e:
 
 # Initialize all components when handlers are imported
 def initialize_bot_components():
-    [cite_start]"""Initialize all bot components""" [cite: 523]
+    """Initialize all bot components"""
     try:
-        [cite_start]logger.info("Initializing bot handlers...") [cite: 523]
+        logger.info("Initializing bot handlers...")
         logger.info("✓ Part 1: Core/User System loaded")
-        [cite_start]logger.info("✓ Part 2: Admin/Database System loaded") [cite: 524]
-        [cite_start]logger.info("✓ Part 3: Search System loaded") [cite: 524]
-        [cite_start]logger.info("✓ Part 4: Blog Integration loaded") [cite: 524]
-        [cite_start]logger.info("🚀 All bot components initialized successfully!") [cite: 524]
+        logger.info("✓ Part 2: Admin/Database System loaded")
+        logger.info("✓ Part 3: Search System loaded")
+        logger.info("✓ Part 4: Blog Integration loaded")
+        logger.info("🚀 All bot components initialized successfully!")
         return True
     except Exception as e:
-        [cite_start]logger.error(f"❌ Error initializing bot components: {e}") [cite: 524]
+        logger.error(f"❌ Error initializing bot components: {e}")
         return False
 
 # Auto-initialize when imported
-[cite_start]initialize_bot_components() [cite: 525]
+initialize_bot_components()
