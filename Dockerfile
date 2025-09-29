@@ -1,22 +1,33 @@
-# Dockerfile
-
-# Use an efficient Python 3.11 base image
+# [cite_start]Use an official Python runtime as a parent image [cite: 820]
 FROM python:3.11-slim
 
-# Set the working directory inside the container
+# [cite_start]Set the working directory within the container [cite: 820]
 WORKDIR /app
 
-# Copy the requirements file first to leverage Docker's build cache
+# [cite_start]Install system dependencies that might be needed by some Python packages [cite: 820]
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# [cite_start]Copy the dependencies file first to leverage Docker's layer caching [cite: 820]
 COPY requirements.txt .
 
-# Install the Python dependencies
+# [cite_start]Install Python dependencies specified in requirements.txt [cite: 821]
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your application code
+# [cite_start]Copy the rest of the application's code into the container [cite: 821]
 COPY . .
 
-# Expose the port the web server will run on
+# [cite_start]Create directories that might be needed by the application [cite: 822]
+RUN mkdir -p logs temp_data
+
+# [cite_start]Set environment variables for the container [cite: 822]
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# [cite_start]Expose the port the app runs on (for the health check server) [cite: 822]
 EXPOSE 8080
 
-# Command to run your application when the container starts
-CMD ["python", "kannada_bot.py"]
+# [cite_start]Command to run the application when the container starts [cite: 823]
+CMD ["python", "main.py"]
