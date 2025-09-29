@@ -1,6 +1,3 @@
-# Part 5: Advanced Bot Features & Complete System Integration
-
-# Additional imports for advanced features
 import aiohttp
 import asyncio
 from datetime import datetime, timedelta
@@ -13,8 +10,20 @@ import hashlib
 import os
 from dataclasses import dataclass
 from enum import Enum
-from config import *
+import logging
+from pymongo import MongoClient
+from pyrogram import Client, filters
+from pyrogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+import uuid
 
+# Configure logging
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+
+# Environment variables
 API_ID = os.environ.get("API_ID")
 API_HASH = os.environ.get("API_HASH")
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
@@ -26,38 +35,19 @@ BLOGGER_API_KEY = os.environ.get("BLOGGER_API_KEY", "")
 BLOGGER_BLOG_ID = os.environ.get("BLOGGER_BLOG_ID", "")
 BLOG_URL = os.environ.get("BLOG_URL", "")
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
-# Advanced Configuration
-class Config:
-    # Bot Configuration
-    API_ID = API_ID
-    API_HASH = API_HASH
-    BOT_TOKEN = BOT_TOKEN 
-    
-    # Admin Configuration
-    ADMIN_IDS = ADMIN_IDS
-    CHANNEL_IDS = CHANNEL_IDS 
-    
-    # Database Configuration
-    MONGO_URL = MONGO_URL
-    DATABASE_NAME = "kannada_entertainment"
-    
-    # Blogger Configuration
-    BLOGGER_API_KEY = BLOGGER_API_KEY
-    BLOGGER_BLOG_ID = BLOGGER_BLOG_ID
-    BLOG_URL = BLOG_URL
-    
-    # Bot Configuration
-    BOT_USERNAME = BOT_USERNAME  # Without @
-    
-    # Advanced Settings
-    MAX_SEARCH_RESULTS = 50
-    ITEMS_PER_PAGE = 10
-    MAX_FILE_SIZE_GB = 4.0
-    SUPPORTED_FORMATS = ['.mp4', '.mkv', '.avi', '.mov', '.m4v']
-    
-    # Cache Settings
-    CACHE_DURATION_HOURS = 24
-    MAX_CACHE_SIZE_MB = 100
+
+# Initialize MongoDB connection
+mongo_client = MongoClient(MONGO_URL)
+db = mongo_client[DATABASE_NAME]
+
+# Collections
+movies_collection = db.movies
+series_collection = db.series
+shows_collection = db.shows
+
+# Initialize Pyrogram client
+app = Client("kannada_bot", api_id=int(API_ID), api_hash=API_HASH, bot_token=BOT_TOKEN)
+
 
 # Data Classes for Better Structure
 @dataclass
