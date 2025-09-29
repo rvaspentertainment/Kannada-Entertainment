@@ -14,7 +14,7 @@ class Config:
     BOT_TOKEN = os.getenv("BOT_TOKEN", "8293435784:AAE4FhGmDeonCTe_ejfTAL83AGodtcoq7Cs")
     
     # Admin and Channel Configuration
-    ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
+    ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "591732965").split(",") if x.strip()]
     CHANNEL_IDS = [int(x) for x in os.getenv("CHANNEL_IDS", "-1001485542941").split(",") if x.strip()]
     
     # Database Configuration
@@ -27,7 +27,7 @@ class Config:
     BLOG_URL = os.getenv("BLOG_URL", "https://kannada-entertainment.blogspot.com")
     
     # Bot Configuration
-    BOT_USERNAME = os.getenv("BOT_USERNAME", "").replace("@", "")
+    BOT_USERNAME = os.getenv("BOT_USERNAME", "kannada_entertainment_bot").replace("@", "")
     
     # Server Configuration
     PORT = int(os.getenv("PORT", 8080))
