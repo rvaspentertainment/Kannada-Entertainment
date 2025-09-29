@@ -23,6 +23,18 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+API_ID = os.environ.get("API_ID")
+API_HASH = os.environ.get("API_HASH")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+ADMIN_IDS = [int(x) for x in os.environ.get("ADMIN_IDS", "").split(",") if x.strip()]
+CHANNEL_IDS = [int(x) for x in os.environ.get("CHANNEL_IDS", "").split(",") if x.strip()]
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017/")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "kannada_entertainment")
+BLOGGER_API_KEY = os.environ.get("BLOGGER_API_KEY", "")
+BLOGGER_BLOG_ID = os.environ.get("BLOGGER_BLOG_ID", "")
+BLOG_URL = os.environ.get("BLOG_URL", "")
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
+
 # Environment variables
 class Config:
     # Environment variables
