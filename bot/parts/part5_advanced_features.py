@@ -1479,7 +1479,7 @@ async def handle_bot_rating(client: Client, callback_query: CallbackQuery):
         await callback_query.answer("❌ Error occurred")
 
 # Handle feedback text input
-@app.on_message(filters.text & ~filters.command())
+@app.on_message(filters.text & filters.private & ~filters.regex(r'^/'))
 async def handle_feedback_input(client: Client, message: Message):
     """Handle feedback text input"""
     try:
