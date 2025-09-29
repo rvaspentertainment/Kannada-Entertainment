@@ -1960,7 +1960,7 @@ async def show_episode_downloads(client: Client, callback_query: CallbackQuery, 
         logger.error(f"Error showing episode downloads: {e}")
 
 # Handle name search input
-@app.on_message(filters.text & ~filters.command(["start", "search", "latest", "help", "up", "stats", "broadcast", "backup", "feedback"]))
+@app.on_message(filters.text & filters.private & ~filters.regex(r'^/'))
 async def handle_name_search(client: Client, message: Message):
     """Handle text input for name search"""
     try:
