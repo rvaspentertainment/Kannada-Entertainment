@@ -1180,31 +1180,3 @@ async def process_next_name(client: Client, message: Message, user_id: int):
 print("✅ Fixed Bot Handlers loaded!")
 print("🎬 All command and callback handlers properly structured!")
 
-# For Koyeb ping (add this to your main.py)
-"""
-# Add this to main.py for Koyeb ping functionality:
-
-import requests
-import threading
-import time
-
-def ping_server():
-    '''Keep Koyeb instance alive by pinging itself'''
-    url = "https://your-app-name.koyeb.app/health"  # Replace with your Koyeb URL
-    
-    while True:
-        try:
-            response = requests.get(url, timeout=30)
-            logger.info(f"Ping successful: {response.status_code}")
-        except Exception as e:
-            logger.error(f"Ping failed: {e}")
-        
-        time.sleep(600)  # Ping every 10 minutes
-
-# Start ping thread
-ping_thread = threading.Thread(target=ping_server, daemon=True)
-ping_thread.start()
-"""
-        
-    except Exception as e:
-        logger.error(f
