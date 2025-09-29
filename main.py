@@ -61,6 +61,7 @@ if not all([API_ID, API_HASH, BOT_TOKEN]):
 
 # Create bot
 
+app = Client("kannada_bot", api_id=int(API_ID), api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 # Flask
 flask_app = Flask(__name__)
