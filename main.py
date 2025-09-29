@@ -6,69 +6,57 @@ from threading import Thread
 import asyncio
 from flask import Flask, jsonify
 from pyrogram import Client
-from dotenv import load_dotenv
-from config import *
-# Load environment variables
-load_dotenv()
 
-# Configure logging with fallback
-def setup_logging():
-    handlers = [logging.StreamHandler(sys.stdout)]
-    
-    # Try to create file handler, but don't fail if we can't
-    try:
-        logs_dir = 'logs'
-        if not os.path.exists(logs_dir):
-            os.makedirs(logs_dir)
-        handlers.append(logging.FileHandler('logs/bot.log'))
-    except (OSError, PermissionError) as e:
-        print(f"Warning: Could not create log file: {e}")
-        print("Continuing with console logging only...")
-    
-    logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        level=logging.INFO,
-        handlers=handlers
-    )
-
-setup_logging()
+# Configure logging FIRST
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO,
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 logger = logging.getLogger(__name__)
 
-# Configuration from environment variables
-class Config:
-    API_ID = os.getenv("API_ID" "13828860")
-    API_HASH = os.getenv("API_HASH" "bbcd5f94dcd9f8a5eedc5de7397b4127")
-    BOT_TOKEN = os.getenv("BOT_TOKEN" "8293435784:AAE4FhGmDeonCTe_ejfTAL83AGodtcoq7Cs")
-    ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "591732965").split(",") if x.strip()]
-    CHANNEL_IDS = [int(x) for x in os.getenv("CHANNEL_IDS", "-1001485542941").split(",") if x.strip()]
-    MONGO_URL = os.getenv("MONGO_URL", "mongodb+srv://rebelstarcreations123:Z5aWnjBR96lmn4FW@cluster0.gg7js7w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-    DATABASE_NAME = os.getenv("DATABASE_NAME", "kannada_entertainment")
-    BLOGGER_API_KEY = os.getenv("BLOGGER_API_KEY", "kan-ent@animated-verve-470514-p3.iam.gserviceaccount.com")
-    BLOGGER_BLOG_ID = os.getenv("BLOGGER_BLOG_ID", "1041004890214123403")
-    BLOG_URL = os.getenv("BLOG_URL", "https://kannada-entertainment.blogspot.com")
-    BOT_USERNAME = os.getenv("BOT_USERNAME", "kannada_entertainment_bot")
-    PORT = int(os.getenv("PORT", 8080))
+# Try to load .env file (for local development)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    logger.info("Loaded .env file")
+except:
+    logger.info("Running without .env file (using system environment variables)")
 
+# Configuration - Read directly from os.environ
+API_ID = os.environ.get("API_ID")
+API_HASH = os.environ.get("API_HASH")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+ADMIN_IDS = os.environ.get("ADMIN_IDS", "")
+CHANNEL_IDS = os.environ.get("CHANNEL_IDS", "")
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017/")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "kannada_entertainment")
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
+PORT = int(os.environ.get("PORT", 8080))
+
+# Debug: Print what we got (hide sensitive data)
+logger.info(f"API_ID present: {bool(API_ID)}")
+logger.info(f"API_HASH present: {bool(API_HASH)}")
+logger.info(f"BOT_TOKEN present: {bool(BOT_TOKEN)}")
+logger.info(f"PORT: {PORT}")
 
 # Validate required configuration
-required_config = ["API_ID", "API_HASH", "BOT_TOKEN"]
-missing_config = [key for key in required_config if not getattr(Config, key)]
-
-if missing_config:
-    logger.error(f"Missing required configuration: {', '.join(missing_config)}")
+if not API_ID or not API_HASH or not BOT_TOKEN:
+    logger.error("Missing required configuration: API_ID, API_HASH, BOT_TOKEN")
+    logger.error("Please set environment variables in Koyeb dashboard")
     sys.exit(1)
 
 # Initialize Pyrogram client
 app = Client(
-    "kannada_bot", 
-    api_id=Config.API_ID, 
-    api_hash=Config.API_HASH, 
-    bot_token=Config.BOT_TOKEN
+    "kannada_bot",
+    api_id=int(API_ID),
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
 )
 
-# Import bot handlers (this is where your Part 1-5 code will be imported)
+# Import bot handlers
 try:
-    from bot import handlers  # This will import all your bot code
+    from bot import handlers
     logger.info("Bot handlers imported successfully")
 except ImportError as e:
     logger.error(f"Failed to import bot handlers: {e}")
@@ -79,47 +67,27 @@ flask_app = Flask(__name__)
 
 @flask_app.route('/health')
 def health_check():
-    """Health check endpoint for Koyeb"""
-    try:
-        current_time = asyncio.get_event_loop().time()
-    except RuntimeError:
-        current_time = "no_event_loop"
-    
-    return jsonify({
-        "status": "healthy",
-        "bot": "running",
-        "timestamp": str(current_time)
-    }), 200
+    return jsonify({"status": "healthy", "bot": "running"}), 200
 
 @flask_app.route('/status')
 def status():
-    """Status endpoint with more details"""
     return jsonify({
         "bot_name": "Kannada Entertainment Bot",
         "status": "operational",
-        "version": "1.0.0",
-        "features": [
-            "content_upload",
-            "user_search",
-            "blog_integration",
-            "analytics",
-            "feedback_system"
-        ]
+        "version": "1.0.0"
     }), 200
 
 def run_flask():
-    """Run Flask app in a separate thread"""
-    flask_app.run(host='0.0.0.0', port=Config.PORT, debug=False)
+    flask_app.run(host='0.0.0.0', port=PORT, debug=False)
 
 def main():
-    """Main function to start both Flask and Pyrogram"""
     try:
-        # Start Flask app in a separate thread
+        # Start Flask in separate thread
         flask_thread = Thread(target=run_flask, daemon=True)
         flask_thread.start()
-        logger.info(f"Flask health check server started on port {Config.PORT}")
+        logger.info(f"Flask server started on port {PORT}")
         
-        # Start Pyrogram bot
+        # Start bot
         logger.info("Starting Kannada Entertainment Bot...")
         app.run()
         
