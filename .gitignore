@@ -1,16 +1,23 @@
-# Ignore Python cache files
+# Environment variables - DO NOT COMMIT THIS
+.env
+
+# Python bytecode and cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Ignore virtual environment folder
-venv/
-.venv/
+# Pyrogram session file
+*.session
+*.session-journal
 
-# Ignore sensitive environment variables file
-.env
-
-# Ignore temporary files
+# Log files
+logs/
 *.log
+
+# IDE and editor directories
+.vscode/
+.idea/
+
+# Temporary data
 temp_data/
