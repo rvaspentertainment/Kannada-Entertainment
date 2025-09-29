@@ -55,6 +55,10 @@ class Config:
     # Cache Settings
     CACHE_DURATION_HOURS = 24
     MAX_CACHE_SIZE_MB = 100
+
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017/")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "kannada_entertainment")
+    
 # Initialize MongoDB connection
 mongo_client = MongoClient(MONGO_URL)
 db = mongo_client[DATABASE_NAME]
