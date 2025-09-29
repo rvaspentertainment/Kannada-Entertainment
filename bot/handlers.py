@@ -646,7 +646,7 @@ async def handle_bot_rating(client: Client, callback_query: CallbackQuery):
 # =============================================================================
 # MESSAGE HANDLERS
 # =============================================================================
-@app.on_message(filters.text & filters.user(ADMIN_IDS) & ~filters.command())
+@app.on_message(filters.text & filters.user(ADMIN_IDS) & ~filters.regex(r"^/"))
 async def handle_admin_text_input(client: Client, message: Message):
     try:
         user_id = message.from_user.id
