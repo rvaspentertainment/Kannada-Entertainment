@@ -36,17 +36,17 @@ logger = logging.getLogger(__name__)
 
 # Configuration from environment variables
 class Config:
-    API_ID = os.getenv("API_ID")
-    API_HASH = os.getenv("API_HASH")
-    BOT_TOKEN = os.getenv("BOT_TOKEN")
-    ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
-    CHANNEL_IDS = [int(x) for x in os.getenv("CHANNEL_IDS", "").split(",") if x.strip()]
-    MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/")
+    API_ID = os.getenv("API_ID" "13828860")
+    API_HASH = os.getenv("API_HASH" "bbcd5f94dcd9f8a5eedc5de7397b4127")
+    BOT_TOKEN = os.getenv("BOT_TOKEN" "8293435784:AAE4FhGmDeonCTe_ejfTAL83AGodtcoq7Cs")
+    ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "591732965").split(",") if x.strip()]
+    CHANNEL_IDS = [int(x) for x in os.getenv("CHANNEL_IDS", "-1001485542941").split(",") if x.strip()]
+    MONGO_URL = os.getenv("MONGO_URL", "mongodb+srv://rebelstarcreations123:Z5aWnjBR96lmn4FW@cluster0.gg7js7w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     DATABASE_NAME = os.getenv("DATABASE_NAME", "kannada_entertainment")
-    BLOGGER_API_KEY = os.getenv("BLOGGER_API_KEY", "")
-    BLOGGER_BLOG_ID = os.getenv("BLOGGER_BLOG_ID", "")
-    BLOG_URL = os.getenv("BLOG_URL", "")
-    BOT_USERNAME = os.getenv("BOT_USERNAME", "")
+    BLOGGER_API_KEY = os.getenv("BLOGGER_API_KEY", "kan-ent@animated-verve-470514-p3.iam.gserviceaccount.com")
+    BLOGGER_BLOG_ID = os.getenv("BLOGGER_BLOG_ID", "1041004890214123403")
+    BLOG_URL = os.getenv("BLOG_URL", "https://kannada-entertainment.blogspot.com")
+    BOT_USERNAME = os.getenv("BOT_USERNAME", "kannada_entertainment_bot")
     PORT = int(os.getenv("PORT", 8080))
 
 
