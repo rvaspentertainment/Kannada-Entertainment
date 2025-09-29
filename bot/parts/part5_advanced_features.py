@@ -1546,15 +1546,3 @@ async def handle_feedback_input(client: Client, message: Message):
     except Exception as e:
         logger.error(f"Error handling feedback input: {e}")
 
-print("🚀 Part 5: Advanced Bot Features & Complete Integration loaded!")
-print("✅ Features: Enhanced search, Blogger integration, Analytics, Feedback system")
-print("🎬 Complete Kannada Entertainment System ready!")
-
-# Start the bot
-if __name__ == "__main__":
-    print("🎬 Starting Advanced Kannada Entertainment Bot...")
-    print("📱 All advanced features loaded successfully!")
-    print("🌐 Blog integration active")
-    print("📊 Analytics system ready")
-    print("💬 Feedback system enabled")
-    app.run()
