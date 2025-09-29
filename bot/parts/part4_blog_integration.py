@@ -1,3 +1,10 @@
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017/")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "kannada_entertainment")
+BLOGGER_API_KEY = os.environ.get("BLOGGER_API_KEY", "")
+BLOGGER_BLOG_ID = os.environ.get("BLOGGER_BLOG_ID", "")
+BLOG_URL = os.environ.get("BLOG_URL", "")
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
