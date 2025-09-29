@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <title>{{POST_TITLE}}</title>
+    <style>
+        /* Add your full CSS from the provided file here */
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        .poster { max-width: 300px; float: left; margin-right: 20px; }
+        .details, .download-section { margin-top: 20px; }
+        .download-btn { display: block; padding: 10px; margin: 5px 0; background-color: #0088cc; color: white; text-align: center; text-decoration: none; border-radius: 5px; }
+        .download-btn:hover { background-color: #005580; }
+        .download-quality { font-weight: bold; }
+        .download-size { font-size: 0.9em; }
+        .fas.fa-download { margin-left: auto; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>{{POST_TITLE}}</h1>
+        <hr>
+        <div>
+            <img src="{{POSTER_URL}}" alt="{{POST_TITLE}} Poster" class="poster">
+            <div class="details">
+                <p><strong>Year:</strong> {{YEAR}}</p>
+                <p><strong>Language:</strong> {{LANGUAGE}}</p>
+                <p><strong>Genre:</strong> {{GENRE}}</p>
+                <p><strong>Cast:</strong> {{ACTORS}}</p>
+                <h3>Plot</h3>
+                <p>{{DESCRIPTION}}</p>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="download-section">
+            <h3>Download Links</h3>
+            <p>Click on your preferred quality below. You will be redirected to our Telegram bot to receive the file.</p>
+            <div class="download-grid">
+                {{DOWNLOAD_BUTTONS}}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
