@@ -5,6 +5,38 @@ import logging
 from threading import Thread
 from flask import Flask, jsonify
 from pyrogram import Client
+import requests
+import threading
+import time
+
+def ping_server():
+    """Keep Koyeb instance alive by pinging itself"""
+    # Replace with your actual Koyeb app URL
+    url = "https://running-aime-file-get-81528fdc.koyeb.app"
+    
+    while True:
+        try:
+            response = requests.get(url, timeout=30)
+            logger.info(f"Ping successful: {response.status_code}")
+        except Exception as e:
+            logger.error(f"Ping failed: {e}")
+        
+        time.sleep(60)  # Ping every 10 minutes
+def main():
+    try:
+        # Start keep-alive ping
+        ping_thread = threading.Thread(target=ping_server, daemon=True)
+        ping_thread.start()
+        logger.info("Keep-alive ping started")
+        
+        # Start Flask in separate thread
+        flask_thread = Thread(target=run_flask, daemon=True)
+        flask_thread.start()
+        
+        # Start bot
+        app.run()
+    except Exception as e:
+        logger.error(f"Error: {e}")
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
