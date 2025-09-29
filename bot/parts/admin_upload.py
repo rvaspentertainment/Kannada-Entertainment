@@ -7,6 +7,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import MessageNotModified
 
+# FIX: Added the missing import for Config
 from config import Config
 from .core_bot_functionality import get_user_session, format_file_size
 
@@ -92,6 +93,10 @@ async def handle_name_input(client: Client, message: Message):
 
     # Ensure this handler only runs when the bot is expecting names
     if session.current_step != "waiting_for_names":
+        # Check for other steps that might handle text input
+        if session.current_step == "collecting_details":
+            from .details_collection import handle_detail_input
+            await handle_detail_input(client, message)
         return
 
     try:
@@ -160,7 +165,6 @@ async def process_next_name(client: Client, message: Message, user_id: int):
         session.total_pages = (len(search_results) - 1) // 10 + 1
         
         # All search results are considered 'selected' by default
-        # The 'Wrong' flow is for removing, not adding.
         session.selected_media[current_name] = list(range(len(search_results)))
 
         await show_search_results(client, progress_msg, user_id, current_name)
@@ -175,7 +179,6 @@ async def process_next_name(client: Client, message: Message, user_id: int):
 async def search_in_channels(client: Client, search_term: str) -> List[dict]:
     """Searches for a term across all configured admin channels."""
     results = []
-    # Use a regex for more flexible matching (e.g., ignoring dots, spaces)
     pattern = re.compile(re.escape(search_term), re.IGNORECASE)
 
     for channel_id in Config.CHANNEL_IDS:
@@ -185,7 +188,6 @@ async def search_in_channels(client: Client, search_term: str) -> List[dict]:
                     file_name = getattr(msg.video or msg.document, 'file_name', '') or ""
                     caption = msg.caption or ""
                     
-                    # Check if the search term matches the file name or caption
                     if pattern.search(file_name) or pattern.search(caption):
                         file_size_bytes = getattr(msg.video or msg.document, 'file_size', 0)
                         
@@ -212,7 +214,6 @@ async def show_search_results(client: Client, message: Message, user_id: int, cu
     selected_indices = session.selected_media.get(current_name, [])
     
     if not results:
-        # This case should be handled by process_next_name, but as a fallback:
         await message.edit_text(f"No results found for `{current_name}`.")
         return
 
@@ -233,7 +234,6 @@ async def show_search_results(client: Client, message: Message, user_id: int, cu
     
     text += "\nAre these the correct files for this item?"
 
-    # --- Buttons ---
     buttons = []
     nav_buttons = []
     if session.current_page > 0:
@@ -252,10 +252,9 @@ async def show_search_results(client: Client, message: Message, user_id: int, cu
     try:
         await message.edit_text(text, reply_markup=InlineKeyboardMarkup(buttons))
     except MessageNotModified:
-        pass # Ignore if the message content is the same
+        pass
     except Exception as e:
         logger.error(f"Error in show_search_results: {e}")
-        # If edit fails, send a new message as a fallback
         await client.send_message(user_id, text, reply_markup=InlineKeyboardMarkup(buttons))
 
 
@@ -316,7 +315,6 @@ async def show_removal_options(client: Client, message: Message, user_id: int, c
     if row:
         buttons.append(row)
         
-    # Navigation and Done buttons
     nav_buttons = []
     if session.current_page > 0:
         nav_buttons.append(InlineKeyboardButton("⬅️", callback_data=f"nav_remove_{current_name}_prev"))
