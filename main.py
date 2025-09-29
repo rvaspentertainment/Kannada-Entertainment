@@ -60,11 +60,7 @@ if not all([API_ID, API_HASH, BOT_TOKEN]):
     sys.exit(1)
 
 # Create bot
-app = Client("kannada_bot", api_id=int(API_ID), api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-# Register handlers
-from bot.handlers import register_handlers
-register_handlers(app)
 
 # Flask
 flask_app = Flask(__name__)
