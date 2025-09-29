@@ -3,11 +3,15 @@
 import logging
 import uuid
 from typing import List, Dict
-from pyrogram import Client, filters
-from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-from .core_bot_functionality import get_user_session, get_collection_by_type
 from datetime import datetime
 import re
+
+from pyrogram import Client, filters
+from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+
+# The missing import is added here
+from config import Config
+from .core_bot_functionality import get_user_session, get_collection_by_type
 
 logger = logging.getLogger(__name__)
 
@@ -153,10 +157,6 @@ async def finalize_upload(client: Client, message: Message, user_id: int):
                     unique_id = str(uuid.uuid4())
                     
                     if media["quality"] == "UNKNOWN":
-                        # If quality is unknown, ask admin and wait
-                        # This part requires more complex state management (asyncio.Event)
-                        # For simplicity here, we'll set a default and log a warning.
-                        # A full implementation would involve a temporary holder and a callback handler.
                         logger.warning(f"Quality for '{media['file_name']}' is UNKNOWN. Defaulting to 'HD'.")
                         media["quality"] = "HD"
 
@@ -198,7 +198,6 @@ async def finalize_upload(client: Client, message: Message, user_id: int):
                 else:
                     doc["total_seasons"] = int(details.get("seasons")) if details.get("seasons", "").isdigit() else None
                     doc["total_episodes"] = int(details.get("episodes")) if details.get("episodes", "").isdigit() else None
-                    # Organize media files by season for series
                     doc["seasons_data"] = organize_episodes_by_season(processed_media_files)
 
                 # Insert or update in the database
@@ -210,9 +209,8 @@ async def finalize_upload(client: Client, message: Message, user_id: int):
                 saved_count += 1
                 
                 # --- Trigger Blogger Update ---
-                from .blogger_integration import update_blogger_site # Avoid circular import
+                from .blogger_integration import update_blogger_site
                 await update_blogger_site(client, message, doc, session.entertainment_type)
-
 
             except Exception as item_error:
                 logger.error(f"Error saving item '{item_name}': {item_error}")
@@ -233,18 +231,15 @@ async def finalize_upload(client: Client, message: Message, user_id: int):
         logger.error(f"Critical error in finalize_upload: {e}")
         await progress_msg.edit_text("❌ A critical error occurred during the finalization process. Check logs.")
     finally:
-        # Clean up session
         session.reset_data()
 
 def extract_season_episode(text: str) -> (int, int):
     """Extracts season and episode number from text using regex."""
     text = text.lower()
-    # Pattern for S01E01, S1E1, etc.
     match = re.search(r'[sS](\d+)[eE](\d+)', text)
     if match:
         return int(match.group(1)), int(match.group(2))
-    # Add more patterns here if needed (e.g., "Season 1 Episode 1")
-    return 1, 1 # Default
+    return 1, 1
 
 def organize_episodes_by_season(media_files: List[Dict]) -> Dict:
     """Organizes a flat list of media files into a nested dictionary by season and episode."""
