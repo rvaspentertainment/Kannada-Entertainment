@@ -1,37 +1,22 @@
-# Use Python 3.11 slim image
+# Dockerfile
+
+# Use an efficient Python 3.11 base image
 FROM python:3.11-slim
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first for better caching
+# Copy the requirements file first to leverage Docker's build cache
 COPY requirements.txt .
 
-# Install Python dependencies
+# Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy the rest of your application code
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p logs temp_data
-
-# Set environment variables
-ENV PYTHONPATH=/app
-ENV PYTHONUNBUFFERED=1
-
-# Expose port
+# Expose the port the web server will run on
 EXPOSE 8080
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8080/health')" || exit 1
-
-# Run the application
-CMD ["python", "main.py"]
+# Command to run your application when the container starts
+CMD ["python", "kannada_bot.py"]
