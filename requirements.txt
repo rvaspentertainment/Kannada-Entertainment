@@ -1,15 +1,18 @@
-# Core bot framework
-pyrogram
-tgcrypto
+# requirements.txt
+
+# Core bot and web framework
+pyrogram>=2.0.106
+TgCrypto>=1.2.5
+Flask>=3.0.0
 
 # Database driver
-pymongo
+pymongo>=4.6.0
 
-# For reading .env file in local development
-python-dotenv
+# HTTP requests for Blogger API
+aiohttp>=3.9.0
 
-# For health checks and web server
-flask
+# Environment variable management
+python-dotenv>=1.0.0
 
-# For making HTTP requests to Blogger API
-aiohttp
+# Utility for human-readable sizes
+humanize>=4.9.0
