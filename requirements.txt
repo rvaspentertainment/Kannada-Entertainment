@@ -1,46 +1,15 @@
-# Core dependencies
-pyrogram==2.0.106
-pymongo==4.6.1
-python-dotenv==1.0.0
-aiohttp==3.9.3
-TgCrypto>=1.2.5
+# Core bot framework
+pyrogram
+tgcrypto
 
-# Web framework for health checks
-flask==3.0.0
-gunicorn==21.2.0
+# Database driver
+pymongo
 
-# Data processing
-python-dateutil==2.8.2
-pytz==2023.4
+# For reading .env file in local development
+python-dotenv
 
-# Logging
-structlog==23.2.0
+# For health checks and web server
+flask
 
-# HTTP requests
-requests==2.31.0
-
-# File handling
-python-magic==0.4.27
-
-# JSON handling
-ujson==5.9.0
-
-# Environment and configuration
-pydantic==2.5.3
-pydantic-settings==2.1.0
-
-# Additional utilities
-humanize==4.9.0
-regex==2023.12.25
-
-# Media processing
-Pillow>=10.3.0
-
-# Absolute essentials only
-pyrogram>=2.0.100
-TgCrypto>=1.2.0
-pymongo>=4.6.0
-python-dotenv>=1.0.0
-flask>=3.0.0
-gunicorn>=21.0.0
-requests>=2.31.0
+# For making HTTP requests to Blogger API
+aiohttp
