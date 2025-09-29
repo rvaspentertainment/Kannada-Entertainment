@@ -209,7 +209,7 @@ async def up_type_callback(client: Client, cb: CallbackQuery):
         logger.error(f"Error in up_type_callback: {e}", exc_info=True)
         await cb.answer("An error occurred.", show_alert=True)
 
-@app.on_message(filters.text & admin_filter & filters.private & ~filters.command(None))
+@app.on_message(filters.text & admin_filter & filters.private & ~filters.regex(r"^/"))
 async def admin_text_handler(client: Client, message: Message):
     session = get_admin_session(message.from_user.id)
     if not session.step: return
