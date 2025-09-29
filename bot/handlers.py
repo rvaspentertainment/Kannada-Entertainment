@@ -661,7 +661,7 @@ async def handle_admin_text_input(client: Client, message: Message):
     except Exception as e:
         logger.error(f"Error handling admin text input: {e}")
 
-@app.on_message(filters.text & filters.private & ~filters.command() & ~filters.user(ADMIN_IDS))
+@app.on_message(filters.text & filters.private & ~filters.regex(r"^/") & ~filters.user(ADMIN_IDS))
 async def handle_user_text_input(client: Client, message: Message):
     try:
         user_id = message.from_user.id
