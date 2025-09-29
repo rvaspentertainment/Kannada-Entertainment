@@ -1,5 +1,4 @@
 import os
-import asyncio
 import logging
 from typing import Dict, List, Optional, Union
 from pyrogram import Client, filters
@@ -11,7 +10,21 @@ from pymongo import MongoClient
 from datetime import datetime
 import re
 import json
-from config import *
+import uuid
+
+# Import configuration from environment variables
+API_ID = os.environ.get("API_ID")
+API_HASH = os.environ.get("API_HASH")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+ADMIN_IDS = [int(x) for x in os.environ.get("ADMIN_IDS", "").split(",") if x.strip()]
+CHANNEL_IDS = [int(x) for x in os.environ.get("CHANNEL_IDS", "").split(",") if x.strip()]
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017/")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "kannada_entertainment")
+BLOGGER_API_KEY = os.environ.get("BLOGGER_API_KEY", "")
+BLOGGER_BLOG_ID = os.environ.get("BLOGGER_BLOG_ID", "")
+BLOG_URL = os.environ.get("BLOG_URL", "")
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
+
 # Configure logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -19,11 +32,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Configuration
-
-
 # Initialize clients
-app = Client
+app = Client("kannada_bot", api_id=int(API_ID), api_hash=API_HASH, bot_token=BOT_TOKEN)
 mongo_client = MongoClient(MONGO_URL)
 db = mongo_client[DATABASE_NAME]
 
